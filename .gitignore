@@ -1,0 +1,4 @@
+data/wiki.simple.bin
+saved_model/grammar/pytorch_model.bin
+.idea/*
+.DS_Store

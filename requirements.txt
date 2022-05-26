@@ -1,0 +1,12 @@
+pyemd
+pytorch_pretrained_bert
+nltk
+torch==1.11.0
+PyYAML
+pulp
+edist
+sklearn
+transformers==3.0.0
+stanza==1.2
+gensim==4.0.0
+gdown
