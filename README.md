@@ -5,7 +5,7 @@
 
 PyTorch code for **ACL 2022** paper: RoMe: A Robust Metric for Evaluating Natural Language Generation [[PDF]](https://aclanthology.org/2022.acl-long.387/).
 
-### Installation (anaconda)
+### ⚙️Installation (anaconda)
 ```commandline
 conda create -n rome -y python=3.8 && source activate rome
 pip install -r requirements.txt
@@ -13,7 +13,7 @@ chmod +x setup.sh
 ./setup.sh
 ```
 
-### Run
+### 🎯 Run
 ```
 python rome.py
 ```
@@ -21,7 +21,7 @@ python rome.py
 **NB:** The components of RoMe are highly parameter sensitive. We recommend users to try different parameters when adapting the code for different domain or dataset.
 
 
-### Citation
+### 📝 Citation
 If you use the code, please cite the following paper.
 ```
 @inproceedings{rony-etal-2022-rome,
@@ -42,8 +42,8 @@ If you use the code, please cite the following paper.
 }
 ```
 
-### License
+### 📜 License
 [MIT](https://github.com/rashad101/RoMe/blob/main/LICENSE.md)
 
-### Contact
+### 📪 Contact
 For further information, contact the corresponding author Md Rashad Al Hasan Rony ([email](mailto:rashad.research@gmail.com)).
