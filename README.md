@@ -46,4 +46,4 @@ If you use the code, please cite the following paper.
 [MIT](https://github.com/rashad101/RoMe/blob/main/LICENSE.md)
 
 ### Contact
-For further information, contact the corresponding author Md Rashad Al Hasan Rony ([email](mailto:rah.rony@gmail.com)).
+For further information, contact the corresponding author Md Rashad Al Hasan Rony ([email](mailto:rashad.research@gmail.com)).
