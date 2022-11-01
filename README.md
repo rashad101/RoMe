@@ -7,7 +7,7 @@ PyTorch code for **ACL 2022** paper: RoMe: A Robust Metric for Evaluating Natura
 
 ### Installation (anaconda)
 ```commandline
-conda create -n rome -y python=3.8 && conda activate rome
+conda create -n rome -y python=3.8 && source activate rome
 pip install -r requirements.txt
 chmod +x setup.sh
 ./setup.sh
