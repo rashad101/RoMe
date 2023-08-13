@@ -1,8 +1,10 @@
 import stanza
 import edist.ted as ted
 import string
+from unidecode import unidecode
 from sklearn.metrics.pairwise import cosine_similarity
 from gensim.models import fasttext
+import re
 
 class TEDse:
     def __init__(self, delta= 0.65, args=None):
@@ -45,39 +47,63 @@ class TEDse:
         return vertices, adjacency_list
 
 
-    def diff(self, x,y, deltated=0.65):
-        if (x is None and y is not None) or (x is not None and y is None): # from the tree-edit definition
+    def diff(self, x,y, deltaed=0.65):
+        """
+        :param x: reference tree node
+        :param y: hypothesis tree node
+        :param deltaed: threshold
+        :return: distance
+        """
+        if (x is None or y is not None) or (x is not None and y is None): # from the tree-edit definition
             return 1.0
         else:
             v1 = self.vec.get_vector(x).reshape(1,-1)
             v2 = self.vec.get_vector(y).reshape(1,-1)
             dist = cosine_similarity(v1,v2)[0][0]
 
-            if dist < deltated:
+            if dist < deltaed:
                 return 1.0
             else:
                 return round(dist, 4)
 
+    def clean_str(self, text):
+        """
+        Tokenization/string cleaning for all datasets except for SST.
+        Original taken from https://github.com/yoonkim/CNN_sentence/blob/master/process_data.py
+        """
+        text = unidecode(text)
+        text = re.sub(r"[^A-Za-z0-9(),!?\'\`]", " ", text)
+        text = re.sub(r"\'s", " \'s", text)
+        text = re.sub(r"\'ve", " \'ve", text)
+        text = re.sub(r"n\'t", " n\'t", text)
+        text = re.sub(r"\'re", " \'re", text)
+        text = re.sub(r"\'d", " \'d", text)
+        text = re.sub(r"\'ll", " \'ll", text)
+        text = re.sub(r",", " , ", text)
+        text = re.sub(r"!", " ! ", text)
+        text = re.sub(r"\(", " \( ", text)
+        text = re.sub(r"\)", " \) ", text)
+        text = re.sub(r"\?", " \? ", text)
+        text = re.sub(r"\s{2,}", " ", text)
+        text = re.sub(r"\"", "", text)
+        text = re.sub(r'[^\w\s]', '', text)  # remove punctuation marks
+        text = re.sub("\s\s+", " ", text)  # remove multiple spaces within the text
+        return text.strip().lower()
 
     def semantic_ted(self,ref,hyp):
         """
         Computes semantic tree edit distance
         """
         y_nodes, y_adj = self.stanza2ted(text=self.clean_str(ref), key="lemma")
+
         if len(hyp) == 0:
             x_nodes, x_adj = [''], [[]]
         else:
             x_nodes, x_adj = self.stanza2ted(text=self.clean_str(hyp), key="token")
 
-        sc = max(0,(ted.ted(x_nodes, x_adj, y_nodes, y_adj, delta=self.diff)-1.0))
+        tedval = ted.ted(x_nodes, x_adj, y_nodes, y_adj, delta=self.diff)
+        sc = max(0,(tedval-1.0))
         return round(sc/(len(y_nodes)+1e-30),4)
-
-
-    def clean_str(self, sent):
-        sent = " ".join([w for w in sent.split() if w not in set(string.punctuation)]).strip()
-        for punct in set(string.punctuation):
-            sent = sent.replace(punct,"")
-        return sent
 
 
 if __name__=="__main__":
